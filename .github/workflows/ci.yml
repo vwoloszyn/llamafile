@@ -4,8 +4,8 @@ on:
   pull_request:
 
 jobs:
-  mistral:
-    runs-on: macos-latest
+  ci-mistral:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4

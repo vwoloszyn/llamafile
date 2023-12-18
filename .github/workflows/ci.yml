@@ -15,8 +15,5 @@
             cd cosmocc
             wget https://cosmo.zip/pub/cosmocc/cosmocc.zip
             unzip cosmocc.zip
-            export CC=x86_64-unknown-cosmo-cc
-            export CXX=x86_64-unknown-cosmo-c++
-            ./configure --prefix=/opt/cosmos/x86_64
       - name: build application
-        run: make -j8
+        run: bin/make -j8

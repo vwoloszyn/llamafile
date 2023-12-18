@@ -15,5 +15,5 @@
             cd cosmocc
             wget https://cosmo.zip/pub/cosmocc/cosmocc.zip
             unzip cosmocc.zip
-      - name: build application
-        run: bin/make -j8
+            cd ..
+            ./osmocc/bin/make -j8

@@ -5,7 +5,7 @@ on:
 
 jobs:
   ci-mistral:
-    runs-on: ubuntu-20.04
+    runs-on: macos-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4

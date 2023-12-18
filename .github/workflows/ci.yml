@@ -9,7 +9,7 @@
       steps:
       - name: checkout repo
         uses: actions/checkout@v4
-      - name: install cosmo
+      - name: Build Install
         run: |
             mkdir -p cosmocc
             cd cosmocc
@@ -17,7 +17,9 @@
             unzip cosmocc.zip
             cd ..
             ls
-            ./cosmocc/bin/make -j8 && make install
+            ./cosmocc/bin/make -j8 && ./cosmocc/bin/make install
+      - name: Create LLM executable
+        run: |
             cp /usr/local/bin/llamafile llamafile
             curl -o mistral.gguf https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.1-GGUF/resolve/main/mistral-7b-instruct-v0.1.Q4_K_M.gguf
             cat >.args <<EOL
@@ -29,5 +31,7 @@
               llamafile \
               mistral.gguf \
               .args
+      - name: Execute
+        run: |
             llamafile --temp 0.7 --n-predict 50 -p '[INST]Write a story about llamas[/INST]'
 

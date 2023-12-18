@@ -16,4 +16,5 @@
             wget https://cosmo.zip/pub/cosmocc/cosmocc.zip
             unzip cosmocc.zip
             cd ..
-            ./osmocc/bin/make -j8
+            ls
+            ./cosmocc/bin/make -j8

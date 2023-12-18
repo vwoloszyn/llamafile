@@ -5,9 +5,11 @@
 
    jobs:
     build:
-      runs-on: macos-latest
+      runs-on: ubuntu-latest
       steps:
       - name: checkout repo
-        uses: actions/checkout@main
+        uses: actions/checkout@v4
+      - name: install make
+        run: brew install make
       - name: build application
         run: make -j8

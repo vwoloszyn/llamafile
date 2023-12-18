@@ -9,7 +9,14 @@
       steps:
       - name: checkout repo
         uses: actions/checkout@v4
-      - name: install make
-        run: brew install make
+      - name: install cosmo
+        run: |
+            mkdir -p cosmocc
+            cd cosmocc
+            wget https://cosmo.zip/pub/cosmocc/cosmocc.zip
+            unzip cosmocc.zip
+            export CC=x86_64-unknown-cosmo-cc
+            export CXX=x86_64-unknown-cosmo-c++
+            ./configure --prefix=/opt/cosmos/x86_64
       - name: build application
         run: make -j8

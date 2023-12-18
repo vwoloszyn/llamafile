@@ -17,4 +17,17 @@
             unzip cosmocc.zip
             cd ..
             ls
-            ./cosmocc/bin/make -j8
+            ./cosmocc/bin/make -j8 && make install
+            cp /usr/local/bin/llamafile llamafile
+            curl -o mistral.gguf https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.1-GGUF/resolve/main/mistral-7b-instruct-v0.1.Q4_K_M.gguf
+            cat >.args <<EOL
+            -m
+            mistral.gguf
+            ... 
+            EOL
+            zipalign -j0 \
+              llamafile \
+              mistral.gguf \
+              .args
+            llamafile --temp 0.7 --n-predict 50 -p '[INST]Write a story about llamas[/INST]'
+

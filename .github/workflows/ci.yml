@@ -1,37 +1,40 @@
-   name: ci tests
+name: CI Tests
 
-   on:
-     pull_request:
+on:
+  pull_request:
 
-   jobs:
-    build:
-      runs-on: macos-latest
-      steps:
-      - name: checkout repo
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Repository
         uses: actions/checkout@v4
-      - name: Build Install
-        run: |
-            mkdir -p cosmocc
-            cd cosmocc
-            wget https://cosmo.zip/pub/cosmocc/cosmocc.zip
-            unzip cosmocc.zip
-            cd ..
-            ls
-            ./cosmocc/bin/make -j8 && ./cosmocc/bin/make install
-      - name: Create LLM executable
-        run: |
-            cp /usr/local/bin/llamafile llamafile
-            curl -o mistral.gguf https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.1-GGUF/resolve/main/mistral-7b-instruct-v0.1.Q4_K_M.gguf
-            cat >.args <<EOL
-            -m
-            mistral.gguf
-            ... 
-            EOL
-            zipalign -j0 \
-              llamafile \
-              mistral.gguf \
-              .args
-      - name: Execute
-        run: |
-            llamafile --temp 0.7 --n-predict 50 -p '[INST]Write a story about llamas[/INST]'
 
+      - name: Build and Install CosmoCC
+        run: |
+          mkdir -p cosmocc
+          cd cosmocc
+          wget https://cosmo.zip/pub/cosmocc/cosmocc.zip
+          unzip cosmocc.zip
+          cd ..
+          ls
+          ./cosmocc/bin/make -j8 && ./cosmocc/bin/make install
+
+      - name: Create LLM Executable
+        run: |
+          curl -o mistral.gguf https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.1-GGUF/resolve/main/mistral-7b-instruct-v0.1.Q4_K_M.gguf
+          cat > .args <<EOL
+          -m
+          mistral.gguf
+          ... 
+          EOL
+          cp /usr/local/bin/llamafile llamafile_exe
+          chmod +x llamafile_exe
+          zipalign -j0 \
+            llamafile_exe \
+            mistral.gguf \
+            .args
+
+      - name: Execute LLM
+        run: |
+          ./llamafile_exe --temp 0.7 --n-predict 50 -p '[INST]Write a story about llamas[/INST]'

@@ -35,6 +35,6 @@ jobs:
             mistral.gguf \
             .args
 
-      - name: Execute LLM
+      - name: Execute LLM CLI
         run: |
           ./llamafile_exe --temp 0.7 --n-predict 50 -p '[INST]Write a story about llamas[/INST]'

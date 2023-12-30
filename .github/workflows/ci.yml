@@ -18,7 +18,7 @@ jobs:
       - name: Build and Install CosmoCC
         shell: bash
         run: |
-          gmake clean && gmake && gmake install
+          make clean && make && make install
           # mkdir -p cosmocc
           # cd cosmocc
           # curl -o cosmocc.zip -L  https://cosmo.zip/pub/cosmocc/cosmocc.zip

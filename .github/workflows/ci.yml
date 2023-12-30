@@ -13,17 +13,28 @@ jobs:
       matrix:
         os: [  macos-latest, ubuntu-latest,  ] # ubuntu-latest, windows-latest are currently non-functional, requiring adaptation for proper functionality. 
     steps:
+      - name: update make
+        shell: bash
+        run: | 
+          wget http://ftp.gnu.org/gnu/make/make-4.1.tar.gz
+          tar xvf make-4.1.tar.gz
+          cd make-4.1/
+          ./configure
+          make
+          sudo make install
       - name: Checkout Repository
         uses: actions/checkout@v4
+    
       - name: Build and Install CosmoCC
         shell: bash
         run: |
-          mkdir -p cosmocc
-          cd cosmocc
-          curl -o cosmocc.zip -L  https://cosmo.zip/pub/cosmocc/cosmocc.zip
-          unzip cosmocc.zip
-          cd ..
-          ./cosmocc/bin/make -j8 && ./cosmocc/bin/make install
+          # mkdir -p cosmocc
+          # cd cosmocc
+          # curl -o cosmocc.zip -L  https://cosmo.zip/pub/cosmocc/cosmocc.zip
+          # unzip cosmocc.zip
+          # cd ..
+          # ./cosmocc/bin/make -j8 && ./cosmocc/bin/make install
+          make && make install
       - name: Create LLM Executable
         shell: bash 
         run: |

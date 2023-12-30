@@ -11,16 +11,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [  macos-latest, windows-latest ] # ubuntu-latest, windows-latest are currently non-functional, requiring adaptation for proper functionality. 
+        os: [  macos-latest, ubuntu-latest ] # ubuntu-latest, windows-latest are currently non-functional, requiring adaptation for proper functionality. 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
       - name: Build and Install CosmoCC
         shell: bash
         run: |
+          # make clean && make && make install
           curl -o cosmocc.zip -L  https://cosmo.zip/pub/cosmocc/cosmocc.zip
           unzip cosmocc.zip
-          bin/make -j8 && bin/make install
+          cd ..
+          ./cosmocc/bin/make -j8 && ./cosmocc/bin/make install
       - name: Create LLM Executable
         shell: bash 
         run: |

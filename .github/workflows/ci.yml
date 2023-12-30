@@ -1,9 +1,9 @@
 name: CI
 on:
   push:
-    branches: [ master, main ]
-  pull_request:
-    branches: [ master, main ]
+  #   branches: [ master, main ]
+  # pull_request:
+  #   branches: [ master, main ]
 jobs:
   Tests:
     timeout-minutes: 60
@@ -11,19 +11,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [  macos-latest ] # ubuntu-latest, windows-latest are currently non-functional, requiring adaptation for proper functionality. 
+        os: [  macos-latest, windows-latest ] # ubuntu-latest, windows-latest are currently non-functional, requiring adaptation for proper functionality. 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
       - name: Build and Install CosmoCC
         shell: bash
         run: |
-          mkdir -p cosmocc
-          cd cosmocc
-          curl -o cosmocc.zip -L  https://cosmo.zip/pub/cosmocc/cosmocc.zip
-          unzip cosmocc.zip
-          cd ..
-          ./cosmocc/bin/make -j8 && ./cosmocc/bin/make install
+          gmake clean && gmake && gmake install
+          # mkdir -p cosmocc
+          # cd cosmocc
+          # curl -o cosmocc.zip -L  https://cosmo.zip/pub/cosmocc/cosmocc.zip
+          # unzip cosmocc.zip
+          # cd ..
+          # ./cosmocc/bin/make -j8 && ./cosmocc/bin/make install
       - name: Create LLM Executable
         shell: bash 
         run: |

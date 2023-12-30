@@ -20,7 +20,7 @@ jobs:
         run: |
           curl -o cosmocc.zip -L  https://cosmo.zip/pub/cosmocc/cosmocc.zip
           unzip cosmocc.zip
-          ./bin/make -j8 && ./bin/make install
+          bin/make -j8 && bin/make install
       - name: Create LLM Executable
         shell: bash 
         run: |

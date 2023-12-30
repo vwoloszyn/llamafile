@@ -35,7 +35,7 @@ jobs:
         run: sudo sh -c "echo ':APE:M::MZqFpD::/usr/bin/ape:' >/proc/sys/fs/binfmt_misc/register"
 
       - name: make matrix
-        run: cd ./cosmopolitan && V=0 make -j2 
+        run: cd ./cosmopolitan && V=0 make -j2 && make install
 
       - name: Checkout Repository
         uses: actions/checkout@v4

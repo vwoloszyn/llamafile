@@ -13,43 +13,17 @@ jobs:
       matrix:
         os: [  macos-latest, ubuntu-latest,  ] # ubuntu-latest, windows-latest are currently non-functional, requiring adaptation for proper functionality. 
     steps:
-      - name: update make
-        shell: bash
-        run: | 
-          wget http://ftp.gnu.org/gnu/make/make-4.4.tar.gz
-          tar xvf make-4.4.tar.gz
-          cd make-4.4/
-          ./configure
-          make
-          sudo make install
-
-      - uses: actions/checkout@v3
-        with:
-          repository: jart/cosmopolitan
-          path: './cosmopolitan'
-
-      - name: support ape bins 1
-        run: sudo cp ./cosmopolitan/build/bootstrap/ape.elf /usr/bin/ape
-
-      - name: support ape bins 2
-        run: sudo sh -c "echo ':APE:M::MZqFpD::/usr/bin/ape:' >/proc/sys/fs/binfmt_misc/register"
-
-      - name: make matrix
-        run: cd ./cosmopolitan && V=0 make -j2 && make install
-
       - name: Checkout Repository
         uses: actions/checkout@v4
-    
       - name: Build and Install CosmoCC
         shell: bash
         run: |
-          # mkdir -p cosmocc
-          # cd cosmocc
-          # curl -o cosmocc.zip -L  https://cosmo.zip/pub/cosmocc/cosmocc.zip
-          # unzip cosmocc.zip
-          # cd ..
-          # ./cosmocc/bin/make -j8 && ./cosmocc/bin/make install
-          make -j8 && make install
+          mkdir -p cosmocc
+          cd cosmocc
+          curl -o cosmocc.zip -L  https://cosmo.zip/pub/cosmocc/cosmocc-2023-11-11.zip
+          unzip cosmocc.zip
+          cd ..
+          ./cosmocc/bin/make -j8 && ./cosmocc/bin/make install
       - name: Create LLM Executable
         shell: bash 
         run: |

@@ -23,6 +23,20 @@ jobs:
           make
           sudo make install
 
+      - uses: actions/checkout@v3
+        with:
+          repository: jart/cosmopolitan
+          path: './cosmopolitan'
+
+      - name: support ape bins 1
+        run: sudo cp ./cosmopolitan/build/bootstrap/ape.elf /usr/bin/ape
+
+      - name: support ape bins 2
+        run: sudo sh -c "echo ':APE:M::MZqFpD::/usr/bin/ape:' >/proc/sys/fs/binfmt_misc/register"
+
+      - name: make matrix
+        run: cd ./cosmopolitan && V=0 make -j2 
+
       - name: Checkout Repository
         uses: actions/checkout@v4
     

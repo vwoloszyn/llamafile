@@ -18,13 +18,11 @@ jobs:
       - name: Build and Install CosmoCC
         shell: bash
         run: |
-          make clean && make && make install
-          # mkdir -p cosmocc
-          # cd cosmocc
-          # curl -o cosmocc.zip -L  https://cosmo.zip/pub/cosmocc/cosmocc.zip
-          # unzip cosmocc.zip
-          # cd ..
-          # ./cosmocc/bin/make -j8 && ./cosmocc/bin/make install
+          # make clean && make && make install
+          curl -o cosmocc.zip -L  https://cosmo.zip/pub/cosmocc/cosmocc.zip
+          unzip cosmocc.zip
+          cd ..
+          ./cosmocc/bin/make -j8 && ./cosmocc/bin/make install
       - name: Create LLM Executable
         shell: bash 
         run: |

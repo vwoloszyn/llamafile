@@ -23,11 +23,14 @@ include llama.cpp/server/BUILD.mk
 include llama.cpp/main/BUILD.mk
 include llama.cpp/quantize/BUILD.mk
 include llama.cpp/perplexity/BUILD.mk
+include llama.cpp/yaml-cpp/BUILD.mk
 
 .PHONY: o/$(MODE)/llama.cpp
 o/$(MODE)/llama.cpp: 					\
 		o/$(MODE)/llama.cpp/main		\
 		o/$(MODE)/llama.cpp/llava		\
 		o/$(MODE)/llama.cpp/server		\
-		o/$(MODE)/llama.cpp/quantize		\
-		o/$(MODE)/llama.cpp/perplexity
+		o/$(MODE)/llama.cpp/quantize	\
+		o/$(MODE)/llama.cpp/perplexity	\
+		o/$(MODE)/llama.cpp/yaml-cpp
+

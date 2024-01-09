@@ -16,6 +16,7 @@
 #include <unistd.h>
 #include <vector>
 
+#include "llama.cpp/yaml-cpp/yaml.h"
 #include "tool/args/args.h"
 #include "llamafile/version.h"
 #include "llama.cpp/llama.h"
@@ -109,6 +110,45 @@ static bool has_argument(int argc, char ** argv, const char * arg) {
 }
 
 int main(int argc, char ** argv) {
+    
+    if (has_argument(argc, argv, "--config")) {
+        // Check if the --config option is provided
+        std::string configFilePath;
+        for (int i = 1; i < argc; ++i) {
+            if (std::string(argv[i]) == "--config") {
+                // Ensure there is an argument after --config
+                if (i + 1 < argc) {
+                    configFilePath = argv[i + 1];
+                } else {
+                    std::cerr << "Error: --config option requires a file path." << std::endl;
+                    return 1;
+                }
+            }
+        }
+
+        // Load YAML file if --config option is provided
+        YAML::Node config;
+        config = YAML::LoadFile(configFilePath);
+        
+
+        // Add values and keys from YAML to argc and argv
+        for (const auto& entry : config) {
+            std::string key = entry.first.as<std::string>();
+            std::string value = entry.second.as<std::string>();
+            argc += 2; // Add two elements for each key-value pair
+            argv = static_cast<char**>(realloc(argv, argc * sizeof(char*)));
+            argv[argc - 2] = strdup(key.c_str());
+            argv[argc - 1] = strdup(value.c_str());
+        }
+
+        // Print modified argc and argv
+        std::cout << "Modified argc: " << argc << std::endl;
+        for (int i = 0; i < argc; ++i) {
+            std::cout << "argv[" << i << "]: " << argv[i] << std::endl;
+        }
+
+        exit(0);
+    }
 
     if (has_argument(argc, argv, "--version")) {
         printf("llamafile v" LLAMAFILE_VERSION_STRING "\n");
